@@ -24,18 +24,19 @@ protocol = "tcp"#set the protocal to tcp
 
 Datetime = datetime.now()# get the datetime
 
-with open("data.json", "r") as file:
-    data = json.load(file)
-    time_gap_hours = (datetime.timestamp(Datetime) - int(data['timestamp']) ) // 3600
-    print(time_gap_hours)
-    if time_gap_hours <= 2:
-        choice = input("you have a scan from within the last 2 hours, would you like to use that? y/n ")
-        if choice == "y":
+with open("data.json", "r") as file:# open the json file
+    data = json.load(file)#put the contents of the file into a dictionary object
+    time_gap_hours = (datetime.timestamp(Datetime) - int(data['timestamp']) ) // 3600# grab the timestamp from the dictonary and the time it is now in date time
+    print(time_gap_hours)#print the time gap in hours sense the last run
+    if time_gap_hours <= 2:#if the time gap is less than or equal to 2
+        choice = input("you have a scan from within the last 2 hours, would you like to use that? y/n: ") #ask the user if they want to use a preveious scan
+        if choice == "y":#if the user says yes then just print the content of the file
             for p in data:
                 if str(p) != "time" and str(p) != "timestamp":
                     print("port : " ,p, "\t state : ", data[p]["state"], "\t name : ", data[p]["name"])
-            file.close()
-            sys.exit(0)
+            file.close()#close the file
+            sys.exit(0)#exit the program
+        file.close()#close the file
 
 print(f'staring scan of ports {port_range_start} through {port_range_end} on {host}')
 
